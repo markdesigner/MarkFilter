@@ -1,19 +1,101 @@
 <header>
   <div class="container">
-      <div class="row">
-        <div class="col-md-3 title">
-            <img src="../assets/logo.png">
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-5 searchBar">
-         <label for="mainSearch" class="mainSearch_label"><i class="fas fa-search"></i></label>
-         <input type="text" maxlength="20" id="mainSearch" class="mainSearch">
-        </div>
+    <div class="row">
+      <div class="col-md-3 title">
+        <img src="../assets/logo.png">
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-md-5 searchBar">
+        <label for="mainSearch" class="mainSearch_label"><i class="fas fa-search"></i></label>
+        <input type="text" [(ngModel)]="search_box" placeholder="輸入區域名" (keyup.enter)="search(search_box)" maxlength="20" id="mainSearch" class="mainSearch">
+      </div>
 
-        </div>
-        
+    </div>
+
   </div>
-  
+
 
 </header>
+
+<div class="filter">
+  <div class="container">
+    <div class="selectBlock">
+    
+        <h3 class="title">想去哪玩？</h3>
+
+      <select [(ngModel)]="location" name="location" id="location_select" (change)="getData($event.target.value)">
+        <option value="左營區">左營區</option>
+        <option value="前鎮區">前鎮區</option>
+        <option value="旗津區">旗津區</option>
+        <option value="三民區">三民區</option>
+
+      </select>
+     
+
+
+    </div>
+    <hr class="greyLine">
+    <div class="selectBlock">
+     
+        <h3 class="title">營業時間</h3>
+        <div class="daySelect">
+          <label for="dayFrom"></label><input id="dayFrom" type="date">
+
+        </div>
+        <div class="daySelect">
+          <label for="dayEnd">From</label><input id="dayEnd" type="date">
+
+
+
+
+      </div>
+    </div>
+    <hr class="greyLine">
+    <div class="selectBlock">
+
+        <h3 class="title"></h3>
+        <div class="selectItem" *ngFor="let item of tag_list">
+          <input type="checkbox" [(ngModel)]="item.status"  (change)="tagFilter(item.statusName,item.status,item.name)"> <span class="itemName">{{item.name}}</span>
+        </div>
+    </div>
+
+
+  </div>
+</div>
+<div class="results float-right">
+  <div class="results_comment">
+    <h4>Showing <span>{{resultsNo}}</span> results by</h4>
+    <div class="tag">
+      <ng-container *ngFor="let tag of tag_list">
+          <div class="tagName" *ngIf="tag.status">{{tag.name}}<span class="cancel_bt">
+              <i class="far fa-times-circle" (click)="tag.status=false;getData(location)"></i></span>
+            </div>
+
+      </ng-container>
+      
+     
+    </div>
+  </div>
+  <div class="result_flow">
+    <ng-container *ngFor="let item of info">
+      <div class="item clearfix">
+        <div class="imageBlock float-left">
+            <img class="image" src="{{item.Picture1}}" alt="Scenery image">
+
+        </div>
+          <div class="content float-right">
+            <h4 class="title">{{item.Name}}</h4>
+            <p class="description">{{item.Description}}</p>
+            <div class="location"><i class="fas fa-map-marker-alt"></i> <span>{{item.Zone}} </span></div>
+            <div class="openTime"> <i class="far fa-calendar-alt"></i><span> {{item.Opentime}} </span></div> 
+            <div class="web" *ngIf="item.Website"> <i class="fas fa-globe-asia"></i> <a href="{{item.Website}}">{{item.Website}}</a></div> 
+
+          </div>
+
+      </div>
+    </ng-container>
+    
+  </div>
+
+</div>
 <router-outlet></router-outlet>
