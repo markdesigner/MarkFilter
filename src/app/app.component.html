@@ -76,7 +76,7 @@
      
     </div>
   </div>
-  <div class="result_flow">
+  <div class="result_flow" *ngIf="!singleShow ;else single">
     <ng-container *ngFor="let item of info">
       <div class="item clearfix" (click)="test(item)">
         <div class="imageBlock float-left">
@@ -95,6 +95,21 @@
     </ng-container>
     
   </div>
+  <ng-template #single>
+
+    <div class="container">
+      <button class="return" (click)="return()">返回搜尋區</button>
+      <div class="img">
+        <img src="{{data.result.Picture1}}">
+      </div>
+      <div class="textContent">
+        <h3 class="title">{{data.result.Name}} </h3>
+        <p class="description">{{data.result.Toldescribe}} </p>
+      </div>
+    </div>
+    
+  </ng-template>
+  
 
 </div>
 <router-outlet></router-outlet>

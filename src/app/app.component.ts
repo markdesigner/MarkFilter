@@ -40,6 +40,7 @@ export class AppComponent {
 
   ];
   info = [];
+  singleShow:boolean=false;
   ngOnInit(): void {
     this.getData(this.location);
   }
@@ -54,6 +55,10 @@ export class AppComponent {
 test(test){
   this.data.result=test;
   this.data.tt();
+  this.singleShow=true;
+}
+return(){
+  this.singleShow=false;
 }
   tagFilter(tagStatusName, checked, tagName) {
     if (checked) {
