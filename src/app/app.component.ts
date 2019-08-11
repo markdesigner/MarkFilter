@@ -1,5 +1,7 @@
+import { DataService } from './service/data.service';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-root',
@@ -8,21 +10,15 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AppComponent {
 
-  constructor(private http: HttpClient) { }
-  fakelist = [
-    {
-      Name: '收費',
-      statusName: 'tag_pay',
-      status: true
-    },
-    {},
-  ]
+  constructor(private http: HttpClient,private data:DataService) { }
+
   search_box: string;
   location: string = '左營區';
   tag_pay: boolean;
   tag_web: boolean;
   tag_free: boolean;
   resultsNo: number;
+  infoTotal:number;
   tag_status = {};
   tag_list= [
     {
@@ -51,10 +47,14 @@ export class AppComponent {
     this.http.get<any>(`https://data.kcg.gov.tw/api/action/datastore_search?resource_id=92290ee5-6e61-456f-80c0-249eae2fcc97&q=${area}`)
       .subscribe(data => {
         this.info = data.result.records;
-        console.log(this.info)
+        this.infoTotal=this.info.length;
+        console.log(this.infoTotal);
       })
   }
-
+test(test){
+  this.data.result=test;
+  this.data.tt();
+}
   tagFilter(tagStatusName, checked, tagName) {
     if (checked) {
       let newInfo = this.info.filter(x => x[tagStatusName] != "")
